@@ -159,7 +159,7 @@
 
     .title-area {
 
-      margin-bottom: 40px;
+      margin-bottom: 45px;
 
     }
 
@@ -208,80 +208,6 @@
 
 
     /* ========================================
-       LIVE COUNTER
-    ======================================== */
-
-    .counter-section {
-
-      text-align: center;
-
-      border-top: 1px solid var(--black);
-
-      border-bottom: 1px solid var(--light-gray);
-
-      padding: 30px 15px;
-
-      margin-bottom: 35px;
-
-    }
-
-
-    .counter-label {
-
-      color: var(--orange);
-
-      font-size: 19px;
-
-      font-weight: 600;
-
-      margin-bottom: 3px;
-
-    }
-
-
-    #emailCount {
-
-      font-size: clamp(48px, 9vw, 75px);
-
-      line-height: 1.1;
-
-      font-weight: 800;
-
-      color: var(--black);
-
-      transition: transform 0.25s ease;
-
-    }
-
-
-    #emailCount.updated {
-
-      transform: scale(1.08);
-
-    }
-
-
-    .counter-text {
-
-      font-size: 17px;
-
-      color: var(--gray);
-
-    }
-
-
-    .counter-status {
-
-      margin-top: 6px;
-
-      font-size: 13px;
-
-      color: var(--gray);
-
-    }
-
-
-    /* ========================================
        EMAIL INFORMATION
     ======================================== */
 
@@ -304,7 +230,7 @@
 
       gap: 20px;
 
-      padding: 7px 0;
+      padding: 6px 0;
 
       font-size: 17px;
 
@@ -462,17 +388,6 @@
     }
 
 
-    .email-btn:disabled {
-
-      opacity: 0.6;
-
-      cursor: not-allowed;
-
-      transform: none;
-
-    }
-
-
     /* ========================================
        COPY BUTTON
     ======================================== */
@@ -591,27 +506,6 @@
       h1 {
 
         font-size: 43px;
-
-      }
-
-
-      .counter-section {
-
-        padding: 25px 10px;
-
-      }
-
-
-      #emailCount {
-
-        font-size: 55px;
-
-      }
-
-
-      .counter-text {
-
-        font-size: 16px;
 
       }
 
@@ -756,48 +650,6 @@
 
 
     <!-- ====================================
-         LIVE COUNTER
-    ===================================== -->
-
-    <section class="counter-section">
-
-      <div class="counter-label">
-
-        सह्याद्रीसाठी नागरिकांचा आवाज
-
-      </div>
-
-
-      <div
-        id="emailCount"
-        aria-live="polite"
-      >
-
-        0
-
-      </div>
-
-
-      <div class="counter-text">
-
-        नागरिकांनी ई-मेल पाठवण्यासाठी पुढाकार घेतला
-
-      </div>
-
-
-      <div
-        id="counterStatus"
-        class="counter-status"
-      >
-
-        Live counter
-
-      </div>
-
-    </section>
-
-
-    <!-- ====================================
          EMAIL INFORMATION
     ===================================== -->
 
@@ -838,12 +690,19 @@
         <div class="meta-value">
 
           mefcc@gov.in,<br>
+
           secy-moef@nic.in,<br>
+
           cmog@gujarat.gov.in,<br>
+
           cm.kar@nic.in,<br>
+
           cmo@tn.gov.in,<br>
+
           chiefminister@kerala.gov.in,<br>
+
           cm@maharashtra.gov.in,<br>
+
           cm@gujarat.gov.in
 
         </div>
@@ -1109,7 +968,6 @@
 
 
       <button
-        id="emailButton"
         class="email-btn"
         onclick="openEmail()">
 
@@ -1159,205 +1017,7 @@
 
 
 
-  <!-- ======================================
-       FIREBASE + JAVASCRIPT
-  ======================================= -->
-
-  <script type="module">
-
-    import {
-      initializeApp
-    }
-    from
-    "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-
-
-    import {
-      getAuth,
-      signInAnonymously
-    }
-    from
-    "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-
-
-    import {
-      getDatabase,
-      ref,
-      onValue,
-      runTransaction
-    }
-    from
-    "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
-
-
-    /* ======================================
-       FIREBASE CONFIGURATION
-       
-       REPLACE THESE VALUES WITH YOUR
-       FIREBASE PROJECT CONFIGURATION
-    ======================================= */
-
-    const firebaseConfig = {
-
-      apiKey:
-        "YOUR_API_KEY",
-
-      authDomain:
-        "YOUR_PROJECT.firebaseapp.com",
-
-      databaseURL:
-        "YOUR_DATABASE_URL",
-
-      projectId:
-        "YOUR_PROJECT_ID",
-
-      storageBucket:
-        "YOUR_PROJECT.firebasestorage.app",
-
-      messagingSenderId:
-        "YOUR_SENDER_ID",
-
-      appId:
-        "YOUR_APP_ID"
-
-    };
-
-
-    /* ======================================
-       INITIALIZE FIREBASE
-    ======================================= */
-
-    const app =
-      initializeApp(firebaseConfig);
-
-
-    const auth =
-      getAuth(app);
-
-
-    const db =
-      getDatabase(app);
-
-
-    /* ======================================
-       DATABASE REFERENCE
-    ======================================= */
-
-    const counterRef =
-      ref(
-        db,
-        "campaign/emailCount"
-      );
-
-
-    /* ======================================
-       DOM ELEMENTS
-    ======================================= */
-
-    const countElement =
-      document.getElementById(
-        "emailCount"
-      );
-
-
-    const statusElement =
-      document.getElementById(
-        "counterStatus"
-      );
-
-
-    const emailButton =
-      document.getElementById(
-        "emailButton"
-      );
-
-
-    /* ======================================
-       LIVE COUNTER
-       
-       Firebase automatically updates this
-       number for everyone connected to the
-       database.
-    ======================================= */
-
-    onValue(
-
-      counterRef,
-
-      (snapshot) => {
-
-        const value =
-          snapshot.val();
-
-
-        const count =
-          Number.isFinite(Number(value))
-            ? Number(value)
-            : 0;
-
-
-        countElement.textContent =
-          count.toLocaleString("en-IN");
-
-
-        statusElement.textContent =
-          "● Live counter";
-
-
-      },
-
-      (error) => {
-
-        console.error(
-          "Counter read error:",
-          error
-        );
-
-
-        statusElement.textContent =
-          "Counter temporarily unavailable";
-
-      }
-
-    );
-
-
-    /* ======================================
-       ANONYMOUS LOGIN
-       
-       Users don't need to create an account.
-    ======================================= */
-
-    let firebaseReady =
-      false;
-
-
-    signInAnonymously(auth)
-
-      .then(() => {
-
-        firebaseReady =
-          true;
-
-
-        statusElement.textContent =
-          "● Live counter";
-
-      })
-
-
-      .catch((error) => {
-
-        console.error(
-          "Anonymous authentication failed:",
-          error
-        );
-
-
-        statusElement.textContent =
-          "Counter connection failed";
-
-      });
+  <script>
 
 
     /* ======================================
@@ -1365,9 +1025,13 @@
     ======================================= */
 
 
+    // MAIN RECIPIENT
+
     const emailAddress =
       "esz-mef@nic.in";
 
+
+    // CC RECIPIENTS
 
     const ccAddresses = [
 
@@ -1390,13 +1054,19 @@
     ].join(",");
 
 
+    // BCC RECIPIENT
+
     const bccAddresses =
       "prrteamstream@gmail.com";
 
 
+    // EMAIL SUBJECT
+
     const emailSubject =
       "सह्याद्रीच्या संरक्षणासाठी ७व्या Western Ghats ESA मसुद्याबाबत तीव्र हरकत";
 
+
+    // EMAIL BODY
 
     const emailText = `मा. संबंधित अधिकारी,
 
@@ -1450,161 +1120,75 @@
        OPEN EMAIL
     ======================================= */
 
-    window.openEmail =
-      async function () {
+    function openEmail() {
+
+      const mailtoLink =
+        "mailto:" +
+        emailAddress +
+
+        "?cc=" +
+        encodeURIComponent(ccAddresses) +
+
+        "&bcc=" +
+        encodeURIComponent(bccAddresses) +
+
+        "&subject=" +
+        encodeURIComponent(emailSubject) +
+
+        "&body=" +
+        encodeURIComponent(emailText);
 
 
-        /*
-         * Count the action before opening
-         * the mail application.
-         */
+      window.location.href =
+        mailtoLink;
 
-        if (firebaseReady) {
-
-          emailButton.disabled =
-            true;
-
-
-          try {
-
-            await runTransaction(
-
-              counterRef,
-
-              (currentValue) => {
-
-                const current =
-                  Number(currentValue);
-
-
-                if (
-                  !Number.isFinite(current) ||
-                  current < 0
-                ) {
-
-                  return 1;
-
-                }
-
-
-                return current + 1;
-
-              }
-
-            );
-
-
-          }
-
-          catch (error) {
-
-            console.error(
-              "Counter update failed:",
-              error
-            );
-
-          }
-
-
-          emailButton.disabled =
-            false;
-
-        }
-
-
-        /* ==================================
-           OPEN MAIL APP
-        ================================== */
-
-        const mailtoLink =
-
-          "mailto:" +
-          emailAddress +
-
-          "?cc=" +
-          encodeURIComponent(
-            ccAddresses
-          ) +
-
-          "&bcc=" +
-          encodeURIComponent(
-            bccAddresses
-          ) +
-
-          "&subject=" +
-          encodeURIComponent(
-            emailSubject
-          ) +
-
-          "&body=" +
-          encodeURIComponent(
-            emailText
-          );
-
-
-        window.location.href =
-          mailtoLink;
-
-      };
+    }
 
 
     /* ======================================
        COPY EMAIL
-    ====================================== */
+    ======================================= */
 
-    window.copyEmail =
-      function () {
+    function copyEmail() {
 
+      if (navigator.clipboard) {
 
-        if (
-          navigator.clipboard
-        ) {
+        navigator.clipboard
+          .writeText(emailText)
 
+          .then(function () {
 
-          navigator.clipboard
+            alert(
+              "✅ ई-मेल मजकूर कॉपी झाला!"
+            );
 
-            .writeText(
-              emailText
-            )
+          })
 
+          .catch(function () {
 
-            .then(function () {
+            fallbackCopy();
 
-              alert(
-                "✅ ई-मेल मजकूर कॉपी झाला!"
-              );
+          });
 
-            })
+      }
 
+      else {
 
-            .catch(function () {
+        fallbackCopy();
 
-              fallbackCopy();
+      }
 
-            });
-
-        }
-
-        else {
-
-          fallbackCopy();
-
-        }
-
-      };
+    }
 
 
     /* ======================================
        FALLBACK COPY
-    ====================================== */
+    ======================================= */
 
     function fallbackCopy() {
 
-
       const textarea =
-        document.createElement(
-          "textarea"
-        );
+        document.createElement("textarea");
 
 
       textarea.value =
@@ -1631,44 +1215,33 @@
 
       try {
 
-
         const successful =
-          document.execCommand(
-            "copy"
-          );
+          document.execCommand("copy");
 
 
         if (successful) {
-
 
           alert(
             "✅ ई-मेल मजकूर कॉपी झाला!"
           );
 
-
         }
 
         else {
-
 
           alert(
             "❌ मजकूर कॉपी करता आला नाही."
           );
 
-
         }
-
 
       }
 
-
       catch (error) {
-
 
         alert(
           "❌ मजकूर कॉपी करता आला नाही."
         );
-
 
       }
 
@@ -1678,6 +1251,7 @@
       );
 
     }
+
 
   </script>
 
